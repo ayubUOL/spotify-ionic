@@ -1,0 +1,22 @@
+ion-item {
+  p {
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  h3 {
+    margin: 10px 0;
+    font-size: 17px;
+  }
+  .custom-label {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    ion-icon {
+      margin-right: 5px;
+    }
+    padding-bottom: 10px;
+    span {
+      margin-right: 15px;
+    }
+  }
+}

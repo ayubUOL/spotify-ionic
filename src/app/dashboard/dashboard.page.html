@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Trending</ion-title>
+    <ion-button
+      (click)="presentPopover($event)"
+      slot="end"
+      size="small"
+      icon-only
+      fill="clear"
+    >
+      <ion-icon color="dark" name="ellipsis-vertical"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ng-container *ngIf="isLoading">
+    <ion-item *ngFor="let i of [].constructor(5)">
+      <ion-avatar slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-avatar>
+      <ion-label>
+        <p>
+          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+        </p>
+        <h6>
+          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+        </h6>
+      </ion-label>
+    </ion-item>
+  </ng-container>
+  <ng-container *ngIf="!isLoading">
+    <ion-item
+      (click)="collapsed[repo.name]? collapsed[repo.name]=false : collapsed[repo.name]=true"
+      *ngFor="let repo of repos"
+    >
+      <ion-avatar slot="start">
+        <ion-img [src]="repo.track.preview_url"></ion-img>
+      </ion-avatar>
+      <ion-list>
+        <div *ngFor="let artist of repo.track.artists">
+          <p>{{artist.name}}</p>
+        </div>
+        
+        <h6>{{repo.track.name}}</h6>
+        <ng-container *ngIf="collapsed[repo.name]">
+          <p>{{repo.description}}({{repo.url}})</p>
+          <div class="custom-label">
+            <ion-icon
+              [style.color]="repo.languageColor"
+              name="ellipse"
+            ></ion-icon>
+            <span>{{repo.language}}</span>
+            <ion-icon name="star" color="warning"></ion-icon>
+            <span>{{repo.stars}}</span>
+            <ion-icon name="git-network" color="dark"></ion-icon>
+            <span>{{repo.forks}}</span>
+          </div>
+        </ng-container>
+      </ion-list>
+    </ion-item>
+  </ng-container>
+</ion-content>
+
+<ion-footer (click)="logout()">
+  <ion-toolbar color="secondary">
+    <ion-title>Log out</ion-title>
+  </ion-toolbar>
+</ion-footer>
